@@ -1,0 +1,3 @@
+include ':UniversalLogin'
+include ':app'
+rootProject.name = "UniversalLogin"
