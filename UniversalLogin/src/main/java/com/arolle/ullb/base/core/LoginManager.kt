@@ -2,13 +2,12 @@ package com.arolle.ullb.base.core
 
 import com.arolle.ullb.base.config.LoginConfig
 import com.arolle.ullb.base.config.LoginMode
+import com.arolle.ullb.base.config.PhoneNumberConfig
 import com.arolle.ullb.base.exceptions.ExceptionTypes
 import com.arolle.ullb.base.exceptions.LoginException
-import com.arolle.ullb.base.listeners.OnClientAuthListener
-import com.arolle.ullb.base.listeners.OnPhoneNumberLoginListener
-import com.arolle.ullb.base.listeners.OnSignInListener
-import com.arolle.ullb.base.listeners.OnSocialNetworkLoginListener
+import com.arolle.ullb.base.listeners.*
 import com.arolle.ullb.base.models.Person
+import com.arolle.ullb.phonelogin.core.PhoneLoginManager
 import com.arolle.ullb.sociallogin.core.SocialNetworkManager
 
 /**
@@ -20,10 +19,11 @@ import com.arolle.ullb.sociallogin.core.SocialNetworkManager
 
 
 object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener,
-    OnPhoneNumberLoginListener {
+    OnPhoneNumberLoginListener,OnPhoneNumberValidListener,OnSecurityCodeWaitListener {
     private lateinit var mode: LoginMode
     private lateinit var mSignInListener: OnSignInListener
     private lateinit var mLoginConfig: LoginConfig
+    private lateinit var mPhoneConfig: PhoneNumberConfig
     fun signIn(loginConfig: LoginConfig, signInListener: OnSignInListener) {
         mode = loginConfig.mode
         mLoginConfig = loginConfig
@@ -33,6 +33,9 @@ object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener,
 
     fun signOut() {
 
+    }
+    fun validateSecurityCode(code:String,waitListener: OnSecurityCodeWaitListener){
+        PhoneLoginManager.submitSecurityCode(code,waitListener)
     }
 
     private fun validateApplication() {
@@ -44,6 +47,7 @@ object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener,
     }
 
     private fun proceedToPhoneLogin() {
+        mLoginConfig.phoneNumberConfig?.let { PhoneLoginManager.handlePhoneNumberLogin(it,this) }
 
     }
 
@@ -63,4 +67,28 @@ object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener,
 
     override fun onPhoneNumberLoginFail(loginException: LoginException) =
         mSignInListener.onSignInFail(loginException)
+
+    override fun onPhoneNumberValidationSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPhoneNumberValidationFail() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSecurityCodeReceive(securityCode: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSecurityCodeValidationSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSecurityCodeWaitTimeTicker(ticker: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSecurityRetryCounter(retryCounter: Int) {
+        TODO("Not yet implemented")
+    }
 }

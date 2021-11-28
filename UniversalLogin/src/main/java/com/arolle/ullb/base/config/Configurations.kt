@@ -6,7 +6,7 @@ package com.arolle.ullb.base.config
  * This is main class which will be exposed to clients
  */
 data class LoginConfig(val appId:String,val mode:LoginMode,var socialConfig:SocialNetworkConfig ?=null,val phoneNumberConfig:PhoneNumberConfig ?=null )
-data class PhoneNumberConfig(val countryCode:String, val phoneNumber:String)
+data class PhoneNumberConfig(val countryCode:String, val phoneNumber:String,val waitTimeInMinutes:Int =15,val maxRetry:Int =5)
 data class SocialNetworkConfig(val socialNetworkType: SocialNetworkType,var socialId: String ="", )
 
 enum class LoginMode {

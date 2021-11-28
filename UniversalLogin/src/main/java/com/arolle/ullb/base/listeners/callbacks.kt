@@ -9,9 +9,9 @@ import com.arolle.ullb.base.models.Person
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
- interface OnClientAuthListener {
+interface OnClientAuthListener {
     fun onClientAuthSuccess()
-    fun onClientAuthFail(message:String)
+    fun onClientAuthFail(message: String)
 }
 
 interface OnSocialNetworkLoginListener {
@@ -24,12 +24,27 @@ interface OnPhoneNumberLoginListener {
     fun onPhoneNumberLoginFail(loginException: LoginException)
 }
 
+interface OnPhoneNumberValidListener:OnSecurityCodeWaitListener{
+    fun onPhoneNumberValidationSuccess()
+    fun onPhoneNumberValidationFail()
+    fun onSecurityCodeReceive(securityCode:String)
+    fun onSecurityCodeValidationSuccess()
 
- interface OnSignInListener {
-    fun onSignInSuccess(person: Person?=null)
+}
+
+interface OnSecurityCodeWaitListener{
+    fun onSecurityCodeWaitTimeTicker(ticker:Int)
+    fun onSecurityRetryCounter(retryCounter:Int)
+}
+
+
+
+interface OnSignInListener {
+    fun onSignInSuccess(person: Person? = null)
     fun onSignInFail(loginException: LoginException)
 }
- interface OnSignOutListener {
+
+interface OnSignOutListener {
     fun onSignOutSuccess()
     fun onSignOutFail()
 }
