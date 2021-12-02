@@ -18,12 +18,10 @@ import com.arolle.ullb.sociallogin.core.SocialNetworkManager
  */
 
 
-object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener,
-    OnPhoneNumberLoginListener,OnPhoneNumberValidListener,OnSecurityCodeWaitListener {
+object LoginManager : OnClientAuthListener {
     private lateinit var mode: LoginMode
     private lateinit var mSignInListener: OnSignInListener
     private lateinit var mLoginConfig: LoginConfig
-    private lateinit var mPhoneConfig: PhoneNumberConfig
     fun signIn(loginConfig: LoginConfig, signInListener: OnSignInListener) {
         mode = loginConfig.mode
         mLoginConfig = loginConfig
@@ -34,61 +32,30 @@ object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener,
     fun signOut() {
 
     }
-    fun validateSecurityCode(code:String,waitListener: OnSecurityCodeWaitListener){
-        PhoneLoginManager.submitSecurityCode(code,waitListener)
+
+    fun validateSecurityCode(code: String, waitListener: OnSecurityCodeWaitListener) {
+        PhoneLoginManager.submitSecurityCode(code, waitListener)
     }
 
     private fun validateApplication() {
-        proceedToSocialLogin()
+        //@todo- we need to call the backend api and on success api we have to call the API
+        if (mode == LoginMode.SOCIAL_NETWORK_LOGIN) proceedToSocialLogin() else proceedToPhoneLogin()
     }
 
     private fun proceedToSocialLogin() {
-        mLoginConfig.socialConfig?.let { SocialNetworkManager.handleSocialLogin(it, this) }
+        mLoginConfig.socialConfig?.let { SocialNetworkManager.handleSocialLogin(it, mLoginConfig.socialConfig!!.socialNetworkLoginListener) }
     }
 
     private fun proceedToPhoneLogin() {
-        mLoginConfig.phoneNumberConfig?.let { PhoneLoginManager.handlePhoneNumberLogin(it,this) }
+        mLoginConfig.phoneNumberConfig?.let { PhoneLoginManager.handlePhoneNumberLogin(it, mLoginConfig.phoneNumberConfig!!.phoneNumberValidListener) }
 
     }
 
     override fun onClientAuthSuccess() =
-        if (mode == LoginMode.PHONE_NUMBER_LOGIN) proceedToPhoneLogin() else proceedToSocialLogin()
+            if (mode == LoginMode.PHONE_NUMBER_LOGIN) proceedToPhoneLogin() else proceedToSocialLogin()
 
     override fun onClientAuthFail(message: String) =
-        mSignInListener.onSignInFail(LoginException(message, ExceptionTypes.INVALID_APPLICATION))
+            mSignInListener.onSignInFail(LoginException(message, ExceptionTypes.INVALID_APPLICATION))
 
-    override fun onSocialNetworkLoginSuccess(person: Person) =
-        mSignInListener.onSignInSuccess(person)
 
-    override fun onSocialNetworkLoginFail(loginException: LoginException) =
-        mSignInListener.onSignInFail(loginException)
-
-    override fun onPhoneNumberLoginSuccess() = mSignInListener.onSignInSuccess()
-
-    override fun onPhoneNumberLoginFail(loginException: LoginException) =
-        mSignInListener.onSignInFail(loginException)
-
-    override fun onPhoneNumberValidationSuccess() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onPhoneNumberValidationFail() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSecurityCodeReceive(securityCode: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSecurityCodeValidationSuccess() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSecurityCodeWaitTimeTicker(ticker: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onSecurityRetryCounter(retryCounter: Int) {
-        TODO("Not yet implemented")
-    }
 }
