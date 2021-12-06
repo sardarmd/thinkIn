@@ -1,21 +1,21 @@
 package com.arolle.ullb.sociallogin.listeners
 
-interface FacebookListener {
+internal interface FacebookListener {
     fun onFacebookLoginSuccess()
     fun onFacebookLoginFail()
 }
 
-interface TwitterListener {
+internal interface TwitterListener {
     fun onTwitterLoginSuccess()
     fun onTwitterLoginFail()
 }
 
-interface InstagramListener {
+internal interface InstagramListener {
     fun onInstagramLoginSuccess()
     fun onInstagramLoginFail()
 }
 
-interface GooglePlusListener {
+internal interface GooglePlusListener {
     fun onGooglePlusLoginSuccess()
     fun onGooglePlusLoginFail()
 }

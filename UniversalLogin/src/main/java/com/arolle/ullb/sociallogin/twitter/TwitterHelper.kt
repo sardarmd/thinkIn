@@ -7,7 +7,7 @@ import com.arolle.ullb.sociallogin.listeners.InstagramListener
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class TwitterHelper(private val instagramListener: InstagramListener) {
+internal class TwitterHelper(private val instagramListener: InstagramListener) {
     init {
         instagramListener.onInstagramLoginSuccess()
     }

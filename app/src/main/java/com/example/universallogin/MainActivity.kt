@@ -17,7 +17,7 @@ import com.arolle.ullb.base.models.Person
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidListener,OnSocialNetworkLoginListener {
+class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidListener, OnSocialNetworkLoginListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,9 +25,9 @@ class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidLi
         PhoneNumberConfig(countryCode = "91", phoneNumber = "8970878633", this)
         ), this)
 
-      /*  LoginManager.signIn(LoginConfig("1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig =
-        SocialNetworkConfig(SocialNetworkType.FACEBOOK,socialId = "1234",this)
-        ), this)*/
+        /*  LoginManager.signIn(LoginConfig("1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig =
+          SocialNetworkConfig(SocialNetworkType.FACEBOOK,socialId = "1234",this)
+          ), this)*/
     }
 
     override fun onSignInSuccess(person: Person?) {
@@ -38,35 +38,27 @@ class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidLi
     }
 
     override fun onPhoneNumberValidationSuccess() {
-        TODO("Not yet implemented")
     }
 
     override fun onPhoneNumberValidationFail() {
-        TODO("Not yet implemented")
     }
 
     override fun onSecurityCodeReceive(securityCode: String) {
-        TODO("Not yet implemented")
     }
 
     override fun onSecurityCodeValidationSuccess() {
-        TODO("Not yet implemented")
     }
 
     override fun onSecurityCodeWaitTimeTicker(ticker: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun onSecurityRetryCounter(retryCounter: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun onSocialNetworkLoginSuccess(person: Person) {
-        TODO("Not yet implemented")
     }
 
     override fun onSocialNetworkLoginFail(loginException: LoginException) {
-        TODO("Not yet implemented")
     }
 
 

@@ -7,7 +7,7 @@ import com.arolle.ullb.sociallogin.listeners.GooglePlusListener
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class GooglePlusHelper(private  val googlePlusListener: GooglePlusListener) {
+internal class GooglePlusHelper(private  val googlePlusListener: GooglePlusListener) {
 
     init {
         googlePlusListener.onGooglePlusLoginSuccess()

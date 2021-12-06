@@ -10,7 +10,7 @@ import com.arolle.ullb.base.listeners.OnSecurityCodeWaitListener
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class PhoneLoginManager private constructor(val phoneNumberConfig: PhoneNumberConfig) {
+internal class PhoneLoginManager private constructor(val phoneNumberConfig: PhoneNumberConfig) {
 
     companion object {
         private var retryCount: Int = 0
