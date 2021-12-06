@@ -1,6 +1,6 @@
 # UniversalLogin
 
-Univeversal login library**(ULLib)** provides configurable, and flexable user login feature to the clients.Currently, it supports below modes
+Univeversal login library(ULLib) provides configurable, and flexable user login feature to the clients.Currently, it supports below modes
 
 _**1.Phone number Registration**
 **2. Social Network Registration**_
