@@ -21,18 +21,18 @@ import com.arolle.ullb.sociallogin.twitter.TwitterHelper
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-internal class SocialNetworkManager private constructor(
+class SocialNetworkManager private constructor(
     listener: OnSocialNetworkLoginListener
+
 
 ) : FacebookListener,
     TwitterListener, InstagramListener, GooglePlusListener {
-    private val snListener: OnSocialNetworkLoginListener = listener
+    private lateinit var snListener: OnSocialNetworkLoginListener
 
     companion object {
 
         fun handleSocialLogin(
-            config: SocialNetworkConfig,
-            listener: OnSocialNetworkLoginListener
+            config: SocialNetworkConfig, listener: OnSocialNetworkLoginListener
         ): SocialNetworkManager {
             val snManager = SocialNetworkManager(listener)
             when (config.socialNetworkType) {
@@ -81,7 +81,7 @@ internal class SocialNetworkManager private constructor(
         firstName: String,
         secondName: String,
         profile: String,
-        email:String
+        email: String
     ) {
         snListener.onSocialNetworkLoginSuccess(
             Person(

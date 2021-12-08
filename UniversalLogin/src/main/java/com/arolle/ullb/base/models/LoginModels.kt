@@ -6,3 +6,4 @@ package com.arolle.ullb.base.models
  * This is main class which will be exposed to clients
  */
 data class Person(var name:String ="", var email:String ="",var profilePic:String ="",   var uniqueId:String ="")
+data class PreLoginMeta(var OTP:String ="", var timer:Int =0,var retryCount:Int =0)

@@ -7,6 +7,8 @@ import com.arolle.ullb.base.exceptions.LoginException
 import com.arolle.ullb.base.listeners.OnClientAuthListener
 import com.arolle.ullb.base.listeners.OnSecurityCodeWaitListener
 import com.arolle.ullb.base.listeners.OnSignInListener
+import com.arolle.ullb.base.listeners.OnSocialNetworkLoginListener
+import com.arolle.ullb.base.models.Person
 import com.arolle.ullb.phonelogin.core.PhoneLoginManager
 import com.arolle.ullb.sociallogin.core.SocialNetworkManager
 
@@ -18,7 +20,7 @@ import com.arolle.ullb.sociallogin.core.SocialNetworkManager
  */
 
 
-object LoginManager : OnClientAuthListener {
+object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener {
     private lateinit var mode: LoginMode
     private lateinit var mSignInListener: OnSignInListener
     private lateinit var mLoginConfig: LoginConfig
@@ -29,9 +31,6 @@ object LoginManager : OnClientAuthListener {
         validateApplication()
     }
 
-    fun signOut() {
-
-    }
 
     fun validateSecurityCode(code: String, waitListener: OnSecurityCodeWaitListener) {
         PhoneLoginManager.submitSecurityCode(code, waitListener)
@@ -43,19 +42,35 @@ object LoginManager : OnClientAuthListener {
     }
 
     private fun proceedToSocialLogin() {
-        mLoginConfig.socialConfig?.let { SocialNetworkManager.handleSocialLogin(it, mLoginConfig.socialConfig!!.socialNetworkLoginListener) }
+        mLoginConfig.socialConfig?.let { SocialNetworkManager.handleSocialLogin(it, this) }
     }
 
     private fun proceedToPhoneLogin() {
-        mLoginConfig.phoneNumberConfig?.let { PhoneLoginManager.handlePhoneNumberLogin(it, mLoginConfig.phoneNumberConfig!!.phoneNumberValidListener) }
+        mLoginConfig.phoneNumberConfig?.let {
+            PhoneLoginManager.handlePhoneNumberLogin(
+                it,
+                mLoginConfig.phoneNumberConfig!!.phoneNumberValidListener
+            )
+        }
 
     }
 
     override fun onClientAuthSuccess() =
-            if (mode == LoginMode.PHONE_NUMBER_LOGIN) proceedToPhoneLogin() else proceedToSocialLogin()
+        if (mode == LoginMode.PHONE_NUMBER_LOGIN) proceedToPhoneLogin() else proceedToSocialLogin()
 
     override fun onClientAuthFail(message: String) =
-            mSignInListener.onSignInFail(LoginException(message, ExceptionTypes.INVALID_APPLICATION))
+        mSignInListener.onSignInFail(LoginException(message, ExceptionTypes.INVALID_APPLICATION))
 
+    override fun onSocialNetworkLoginSuccess(person: Person) {
+        mSignInListener.onSignInSuccess(person)
+    }
+
+    override fun onSocialNetworkLoginFail(loginException: LoginException) {
+    }
+
+
+    fun signOut() {
+
+    }
 
 }

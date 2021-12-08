@@ -29,8 +29,8 @@ data class PhoneNumberConfig(
 data class SocialNetworkConfig(
     val component: Any,
     val socialNetworkType: SocialNetworkType,
-    var socialId: String = "",
-    val socialNetworkLoginListener: OnSocialNetworkLoginListener
+    var socialId: String = ""
+//    val socialNetworkLoginListener: OnSocialNetworkLoginListener
 )
 
 enum class LoginMode {

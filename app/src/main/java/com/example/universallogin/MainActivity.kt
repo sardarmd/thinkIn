@@ -1,7 +1,6 @@
 package com.example.universallogin
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arolle.ullb.base.config.LoginConfig
@@ -10,10 +9,9 @@ import com.arolle.ullb.base.config.SocialNetworkConfig
 import com.arolle.ullb.base.config.SocialNetworkType
 import com.arolle.ullb.base.core.LoginManager
 import com.arolle.ullb.base.exceptions.LoginException
-import com.arolle.ullb.base.listeners.OnPhoneNumberValidListener
 import com.arolle.ullb.base.listeners.OnSignInListener
-import com.arolle.ullb.base.listeners.OnSocialNetworkLoginListener
 import com.arolle.ullb.base.models.Person
+import com.arolle.ullb.base.models.PreLoginMeta
 
 
 /**
@@ -22,55 +20,29 @@ import com.arolle.ullb.base.models.Person
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class MainActivity : AppCompatActivity(), OnSignInListener, /*OnPhoneNumberValidListener,*/
-    OnSocialNetworkLoginListener {
+class MainActivity : AppCompatActivity(), OnSignInListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        LoginManager.signIn(LoginConfig("1234", LoginMode.PHONE_NUMBER_LOGIN, phoneNumberConfig =
-//        PhoneNumberConfig(countryCode = "91", phoneNumber = "8970878633", this)
-//        ), this)
-
         LoginManager.signIn(
             LoginConfig(
                 "1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig =
-                SocialNetworkConfig(this, SocialNetworkType.FACEBOOK, socialId = "1234", this)
+                SocialNetworkConfig(this, SocialNetworkType.FACEBOOK, socialId = "1234")
             ), this
         )
     }
 
+    override fun onSignInProcess(preLoginMeta: PreLoginMeta?) {
+    }
+
     override fun onSignInSuccess(person: Person?) {
-        Log.d("onSignInSuccess", "" + person)
+        if (person != null)
+            Toast.makeText(this, person.name, Toast.LENGTH_LONG).show()
+
     }
 
     override fun onSignInFail(loginException: LoginException) {
-    }
-/*
-    override fun onPhoneNumberValidationSuccess() {
-    }
-
-    override fun onPhoneNumberValidationFail() {
-    }
-
-    override fun onSecurityCodeReceive(securityCode: String) {
-    }
-
-    override fun onSecurityCodeValidationSuccess() {
-    }
-
-    override fun onSecurityCodeWaitTimeTicker(ticker: Int) {
-    }
-
-    override fun onSecurityRetryCounter(retryCounter: Int) {
-    }*/
-
-    override fun onSocialNetworkLoginSuccess(person: Person) {
-        Log.d("Sardar", "SocialNetwork login success $person");
-        Toast.makeText(this,"${person.name}",Toast.LENGTH_LONG).show()
-    }
-
-    override fun onSocialNetworkLoginFail(loginException: LoginException) {
     }
 
 }
