@@ -1,20 +1,18 @@
 package com.example.universallogin
 
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.arolle.ullb.base.config.*
+import com.arolle.ullb.base.config.LoginConfig
+import com.arolle.ullb.base.config.LoginMode
+import com.arolle.ullb.base.config.SocialNetworkConfig
+import com.arolle.ullb.base.config.SocialNetworkType
 import com.arolle.ullb.base.core.LoginManager
 import com.arolle.ullb.base.exceptions.LoginException
 import com.arolle.ullb.base.listeners.OnPhoneNumberValidListener
 import com.arolle.ullb.base.listeners.OnSignInListener
 import com.arolle.ullb.base.listeners.OnSocialNetworkLoginListener
 import com.arolle.ullb.base.models.Person
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 
 /**

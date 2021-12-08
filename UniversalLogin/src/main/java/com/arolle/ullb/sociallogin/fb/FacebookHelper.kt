@@ -1,6 +1,8 @@
 package com.arolle.ullb.sociallogin.fb
 
 import android.app.Activity
+import android.content.Context
+import androidx.fragment.app.Fragment
 import com.arolle.ullb.sociallogin.listeners.FacebookListener
 import com.facebook.*
 import com.facebook.login.LoginManager.getInstance
@@ -15,15 +17,13 @@ import com.facebook.login.LoginResult
  */
 internal class FacebookHelper(
     private val fbListener: FacebookListener,
-    private val activity: Activity
+    private val component: Any
 ) {
     private var mCallBackManager: CallbackManager = CallbackManager.Factory.create()
 
     private val mCallBack: FacebookCallback<LoginResult?> =
         object : FacebookCallback<LoginResult?> {
-            override fun onCancel() {
-                fbListener.onFacebookLoginFail("Cancelled")
-            }
+            override fun onCancel() = fbListener.onFacebookLoginFail("Cancelled")
 
             override fun onError(e: FacebookException) {
                 fbListener.onFacebookLoginFail(e.message.toString())
@@ -42,8 +42,9 @@ internal class FacebookHelper(
 
     init {
         getInstance().registerCallback(mCallBackManager, mCallBack)
-
-        getInstance().retrieveLoginStatus(activity, object : LoginStatusCallback {
+        val context: Context? =
+            if (component is Fragment) component.context else component as Activity
+        getInstance().retrieveLoginStatus(context, object : LoginStatusCallback {
             override fun onCompleted(accessToken: AccessToken) {
                 val profile = Profile.getCurrentProfile()
                 fbListener.onFacebookLoginSuccess(
@@ -65,11 +66,21 @@ internal class FacebookHelper(
     }
 
     private fun login() {
-        getInstance()
-            .logInWithReadPermissions(
-                activity,
-                listOf("public_profile", "email")
-            );
+
+        if (component is Fragment) {
+            getInstance()
+                .logInWithReadPermissions(
+                    component,
+                    mCallBackManager,
+                    listOf("public_profile", "email")
+                )
+        }; else if (component is Activity) {
+            getInstance()
+                .logInWithReadPermissions(
+                    component,
+                    listOf("public_profile", "email")
+                )
+        }
     }
 
     private fun logout() {

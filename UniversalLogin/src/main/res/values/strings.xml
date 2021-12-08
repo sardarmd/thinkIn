@@ -1,7 +1,3 @@
 <resources>
-    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="app_name">UniversalLogin</string>
-    <string name="facebook_app_id">453588349622904</string>
-    <string name="fb_login_protocol_scheme">fb453588349622904</string>
-
 </resources>

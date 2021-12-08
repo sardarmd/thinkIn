@@ -1,6 +1,5 @@
 package com.arolle.ullb.sociallogin.core
 
-import android.util.Log
 import com.arolle.ullb.base.config.SocialNetworkConfig
 import com.arolle.ullb.base.config.SocialNetworkType
 import com.arolle.ullb.base.exceptions.ExceptionTypes
@@ -37,7 +36,7 @@ internal class SocialNetworkManager private constructor(
         ): SocialNetworkManager {
             val snManager = SocialNetworkManager(listener)
             when (config.socialNetworkType) {
-                SocialNetworkType.FACEBOOK -> FacebookHelper(snManager, config.activity)
+                SocialNetworkType.FACEBOOK -> FacebookHelper(snManager, config.component)
                 SocialNetworkType.GOOGLE_PLUS -> GooglePlusHelper(snManager)
                 SocialNetworkType.INSTAGRAM -> InstagramHelper(snManager)
                 SocialNetworkType.TWITTER -> TwitterHelper(snManager)
