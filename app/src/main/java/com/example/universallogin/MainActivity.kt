@@ -2,6 +2,7 @@ package com.example.universallogin
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arolle.ullb.base.config.LoginConfig
 import com.arolle.ullb.base.config.LoginMode
@@ -21,7 +22,7 @@ import com.arolle.ullb.base.models.Person
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidListener,
+class MainActivity : AppCompatActivity(), OnSignInListener, /*OnPhoneNumberValidListener,*/
     OnSocialNetworkLoginListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidLi
 
     override fun onSignInFail(loginException: LoginException) {
     }
-
+/*
     override fun onPhoneNumberValidationSuccess() {
     }
 
@@ -62,10 +63,11 @@ class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidLi
     }
 
     override fun onSecurityRetryCounter(retryCounter: Int) {
-    }
+    }*/
 
     override fun onSocialNetworkLoginSuccess(person: Person) {
         Log.d("Sardar", "SocialNetwork login success $person");
+        Toast.makeText(this,"${person.name}",Toast.LENGTH_LONG).show()
     }
 
     override fun onSocialNetworkLoginFail(loginException: LoginException) {
