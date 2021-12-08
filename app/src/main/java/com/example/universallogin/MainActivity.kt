@@ -1,8 +1,11 @@
 package com.example.universallogin
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.arolle.ullb.base.config.*
 import com.arolle.ullb.base.core.LoginManager
 import com.arolle.ullb.base.exceptions.LoginException
@@ -10,6 +13,9 @@ import com.arolle.ullb.base.listeners.OnPhoneNumberValidListener
 import com.arolle.ullb.base.listeners.OnSignInListener
 import com.arolle.ullb.base.listeners.OnSocialNetworkLoginListener
 import com.arolle.ullb.base.models.Person
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+
 
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
@@ -17,17 +23,22 @@ import com.arolle.ullb.base.models.Person
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidListener, OnSocialNetworkLoginListener {
+class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidListener,
+    OnSocialNetworkLoginListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        LoginManager.signIn(LoginConfig("1234", LoginMode.PHONE_NUMBER_LOGIN, phoneNumberConfig =
-        PhoneNumberConfig(countryCode = "91", phoneNumber = "8970878633", this)
-        ), this)
 
-        /*  LoginManager.signIn(LoginConfig("1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig =
-          SocialNetworkConfig(SocialNetworkType.FACEBOOK,socialId = "1234",this)
-          ), this)*/
+//        LoginManager.signIn(LoginConfig("1234", LoginMode.PHONE_NUMBER_LOGIN, phoneNumberConfig =
+//        PhoneNumberConfig(countryCode = "91", phoneNumber = "8970878633", this)
+//        ), this)
+
+        LoginManager.signIn(
+            LoginConfig(
+                "1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig =
+                SocialNetworkConfig(this, SocialNetworkType.FACEBOOK, socialId = "1234", this)
+            ), this
+        )
     }
 
     override fun onSignInSuccess(person: Person?) {
@@ -56,10 +67,10 @@ class MainActivity : AppCompatActivity(), OnSignInListener, OnPhoneNumberValidLi
     }
 
     override fun onSocialNetworkLoginSuccess(person: Person) {
+        Log.d("Sardar", "SocialNetwork login success $person");
     }
 
     override fun onSocialNetworkLoginFail(loginException: LoginException) {
     }
-
 
 }

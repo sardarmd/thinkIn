@@ -5,4 +5,4 @@ package com.arolle.ullb.base.models
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-data class Person(var name:String ="", var email:String ="", var uniqueId:String ="")
+data class Person(var name:String ="", var email:String ="",var profilePic:String ="",   var uniqueId:String ="")

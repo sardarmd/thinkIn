@@ -2,11 +2,11 @@ package com.arolle.ullb.base.core
 
 import com.arolle.ullb.base.config.LoginConfig
 import com.arolle.ullb.base.config.LoginMode
-import com.arolle.ullb.base.config.PhoneNumberConfig
 import com.arolle.ullb.base.exceptions.ExceptionTypes
 import com.arolle.ullb.base.exceptions.LoginException
-import com.arolle.ullb.base.listeners.*
-import com.arolle.ullb.base.models.Person
+import com.arolle.ullb.base.listeners.OnClientAuthListener
+import com.arolle.ullb.base.listeners.OnSecurityCodeWaitListener
+import com.arolle.ullb.base.listeners.OnSignInListener
 import com.arolle.ullb.phonelogin.core.PhoneLoginManager
 import com.arolle.ullb.sociallogin.core.SocialNetworkManager
 

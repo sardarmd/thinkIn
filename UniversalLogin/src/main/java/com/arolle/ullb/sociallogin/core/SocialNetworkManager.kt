@@ -1,5 +1,6 @@
 package com.arolle.ullb.sociallogin.core
 
+import android.util.Log
 import com.arolle.ullb.base.config.SocialNetworkConfig
 import com.arolle.ullb.base.config.SocialNetworkType
 import com.arolle.ullb.base.exceptions.ExceptionTypes
@@ -36,7 +37,7 @@ internal class SocialNetworkManager private constructor(
         ): SocialNetworkManager {
             val snManager = SocialNetworkManager(listener)
             when (config.socialNetworkType) {
-                SocialNetworkType.FACEBOOK -> FacebookHelper(snManager)
+                SocialNetworkType.FACEBOOK -> FacebookHelper(snManager, config.activity)
                 SocialNetworkType.GOOGLE_PLUS -> GooglePlusHelper(snManager)
                 SocialNetworkType.INSTAGRAM -> InstagramHelper(snManager)
                 SocialNetworkType.TWITTER -> TwitterHelper(snManager)
@@ -45,16 +46,6 @@ internal class SocialNetworkManager private constructor(
             return snManager
         }
     }
-
-    override fun onFacebookLoginSuccess() =
-        snListener.onSocialNetworkLoginSuccess(Person("Sardar - onFacebookLoginSuccess"))
-
-    override fun onFacebookLoginFail() = snListener.onSocialNetworkLoginFail(
-        LoginException(
-            "FBLoginFail",
-            ExceptionTypes.FACEBOOK_EXCEPTION
-        )
-    )
 
     override fun onTwitterLoginSuccess() =
         snListener.onSocialNetworkLoginSuccess(Person("Sardar - onTwitterLoginSuccess"))
@@ -85,4 +76,27 @@ internal class SocialNetworkManager private constructor(
             ExceptionTypes.GOOGLE_EXCEPTION
         )
     )
+
+    override fun onFacebookLoginSuccess(
+        accessToken: String,
+        firstName: String,
+        secondName: String,
+        profile: String,
+        email:String
+    ) {
+        snListener.onSocialNetworkLoginSuccess(
+            Person(
+                name = firstName.plus(secondName),
+                profilePic = profile,
+                email = email
+            )
+        )
+    }
+
+    override fun onFacebookLoginFail(message: String) {
+        LoginException(
+            message,
+            ExceptionTypes.FACEBOOK_EXCEPTION
+        )
+    }
 }
