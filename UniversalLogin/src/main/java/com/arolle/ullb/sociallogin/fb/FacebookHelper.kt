@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import com.arolle.ullb.sociallogin.listeners.FacebookListener
-import com.facebook.*
+import com.arolle.ullb.sociallogin.listeners.getFacebookCallBackManager
+import com.arolle.ullb.sociallogin.listeners.getFacebookCallbackListener
+import com.facebook.AccessToken
+import com.facebook.LoginStatusCallback
+import com.facebook.Profile
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginManager.getInstance
-import com.facebook.login.LoginResult
-
 
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
@@ -15,44 +18,29 @@ import com.facebook.login.LoginResult
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-internal class FacebookHelper(
-    private val fbListener: FacebookListener,
-    private val component: Any
-) {
-    private var mCallBackManager: CallbackManager = CallbackManager.Factory.create()
+internal class FacebookHelper(private val component: Any, private val fbListener: FacebookListener) {
 
-    private val mCallBack: FacebookCallback<LoginResult?> =
-        object : FacebookCallback<LoginResult?> {
-            override fun onCancel() = fbListener.onFacebookLoginFail("Cancelled")
-
-            override fun onError(e: FacebookException) {
-                fbListener.onFacebookLoginFail(e.message.toString())
-            }
-
-            override fun onSuccess(result: LoginResult?) {
-
-                result?.accessToken?.token?.let {
-                    fbListener.onFacebookLoginSuccess(
-                        it,
-                        result.accessToken.userId
-                    )
-                }
-            }
-        }
+    private val fbLoginManager: LoginManager = getInstance()
 
     init {
-        getInstance().registerCallback(mCallBackManager, mCallBack)
-        val context: Context? =
-            if (component is Fragment) component.context else component as Activity
-        getInstance().retrieveLoginStatus(context, object : LoginStatusCallback {
+        fbLoginManager.registerCallback(getFacebookCallBackManager(), getFacebookCallbackListener(fbListener))
+        getLoginState()
+    }
+
+    private fun getLoginState() {
+
+        val context: Context? = if (component is Fragment) component.context else component as Activity
+
+        fbLoginManager.retrieveLoginStatus(context, object : LoginStatusCallback {
             override fun onCompleted(accessToken: AccessToken) {
                 val profile = Profile.getCurrentProfile()
-                fbListener.onFacebookLoginSuccess(
-                    accessToken = accessToken.token,
-                    firstName = profile?.firstName.toString(),
-                    secondName = profile?.lastName.toString(),
-                    profile = profile?.getProfilePictureUri(100, 100).toString(),
-                )
+                if (profile == null) login() else
+                    fbListener.onFacebookLoginSuccess(
+                            accessToken = accessToken.token,
+                            firstName = profile?.firstName.toString(),
+                            secondName = profile?.lastName.toString(),
+                            profile = profile?.getProfilePictureUri(100, 100).toString(),
+                    )
 
             }
 
@@ -66,24 +54,13 @@ internal class FacebookHelper(
     }
 
     private fun login() {
-
+        val permissions = listOf("public_profile", "email")
         if (component is Fragment) {
-            getInstance()
-                .logInWithReadPermissions(
-                    component,
-                    mCallBackManager,
-                    listOf("public_profile", "email")
-                )
-        }; else if (component is Activity) {
-            getInstance()
-                .logInWithReadPermissions(
-                    component,
-                    listOf("public_profile", "email")
-                )
-        }
+            fbLoginManager.logInWithReadPermissions(component, getFacebookCallBackManager(), permissions)
+        }; else fbLoginManager.logInWithReadPermissions(component as Activity, permissions)
     }
 
-    private fun logout() {
-        getInstance().logOut()
+    private fun logOut() {
+        fbLoginManager.logOut()
     }
 }

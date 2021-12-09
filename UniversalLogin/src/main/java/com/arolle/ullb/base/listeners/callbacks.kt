@@ -41,7 +41,7 @@ interface OnSecurityCodeWaitListener {
 
 interface OnSignInListener {
     fun onSignInProcess(preLoginMeta: PreLoginMeta? = null)
-    fun onSignInSuccess(person: Person? = null)
+    fun onSignInSuccess(person: Person)
     fun onSignInFail(loginException: LoginException)
 }
 

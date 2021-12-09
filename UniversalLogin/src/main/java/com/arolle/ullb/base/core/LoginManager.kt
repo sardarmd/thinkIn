@@ -48,18 +48,18 @@ object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener {
     private fun proceedToPhoneLogin() {
         mLoginConfig.phoneNumberConfig?.let {
             PhoneLoginManager.handlePhoneNumberLogin(
-                it,
-                mLoginConfig.phoneNumberConfig!!.phoneNumberValidListener
+                    it,
+                    mLoginConfig.phoneNumberConfig!!.phoneNumberValidListener
             )
         }
 
     }
 
     override fun onClientAuthSuccess() =
-        if (mode == LoginMode.PHONE_NUMBER_LOGIN) proceedToPhoneLogin() else proceedToSocialLogin()
+            if (mode == LoginMode.PHONE_NUMBER_LOGIN) proceedToPhoneLogin() else proceedToSocialLogin()
 
     override fun onClientAuthFail(message: String) =
-        mSignInListener.onSignInFail(LoginException(message, ExceptionTypes.INVALID_APPLICATION))
+            mSignInListener.onSignInFail(LoginException(message, ExceptionTypes.INVALID_APPLICATION))
 
     override fun onSocialNetworkLoginSuccess(person: Person) {
         mSignInListener.onSignInSuccess(person)

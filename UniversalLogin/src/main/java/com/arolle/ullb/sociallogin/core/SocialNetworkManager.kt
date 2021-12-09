@@ -1,5 +1,6 @@
 package com.arolle.ullb.sociallogin.core
 
+import android.util.Log
 import com.arolle.ullb.base.config.SocialNetworkConfig
 import com.arolle.ullb.base.config.SocialNetworkType
 import com.arolle.ullb.base.exceptions.ExceptionTypes
@@ -21,22 +22,17 @@ import com.arolle.ullb.sociallogin.twitter.TwitterHelper
  * license that can be found in the LICENSE file.
  * This is main class which will be exposed to clients
  */
-class SocialNetworkManager private constructor(
-    listener: OnSocialNetworkLoginListener
+class SocialNetworkManager private constructor(listener: OnSocialNetworkLoginListener) : FacebookListener,
+        TwitterListener, InstagramListener, GooglePlusListener {
 
-
-) : FacebookListener,
-    TwitterListener, InstagramListener, GooglePlusListener {
-    private lateinit var snListener: OnSocialNetworkLoginListener
+    private var snListener: OnSocialNetworkLoginListener = listener
 
     companion object {
 
-        fun handleSocialLogin(
-            config: SocialNetworkConfig, listener: OnSocialNetworkLoginListener
-        ): SocialNetworkManager {
+        fun handleSocialLogin(config: SocialNetworkConfig, listener: OnSocialNetworkLoginListener): SocialNetworkManager {
             val snManager = SocialNetworkManager(listener)
             when (config.socialNetworkType) {
-                SocialNetworkType.FACEBOOK -> FacebookHelper(snManager, config.component)
+                SocialNetworkType.FACEBOOK -> FacebookHelper(config.component, snManager)
                 SocialNetworkType.GOOGLE_PLUS -> GooglePlusHelper(snManager)
                 SocialNetworkType.INSTAGRAM -> InstagramHelper(snManager)
                 SocialNetworkType.TWITTER -> TwitterHelper(snManager)
@@ -46,56 +42,60 @@ class SocialNetworkManager private constructor(
         }
     }
 
-    override fun onTwitterLoginSuccess() =
-        snListener.onSocialNetworkLoginSuccess(Person("Sardar - onTwitterLoginSuccess"))
-
-    override fun onTwitterLoginFail() = snListener.onSocialNetworkLoginFail(
-        LoginException(
-            "FBLoginFail",
-            ExceptionTypes.TWITTER_EXCEPTION
-        )
-    )
-
-    override fun onInstagramLoginSuccess() =
-        snListener.onSocialNetworkLoginSuccess(Person("Sardar - onInstagramLoginSuccess"))
-
-    override fun onInstagramLoginFail() = snListener.onSocialNetworkLoginFail(
-        LoginException(
-            "FBLoginFail",
-            ExceptionTypes.INSTAGRAM_EXCEPTION
-        )
-    )
-
-    override fun onGooglePlusLoginSuccess() =
-        snListener.onSocialNetworkLoginSuccess(Person("Sardar - onGooglePlusLoginSuccess"))
-
-    override fun onGooglePlusLoginFail() = snListener.onSocialNetworkLoginFail(
-        LoginException(
-            "FBLoginFail",
-            ExceptionTypes.GOOGLE_EXCEPTION
-        )
-    )
-
     override fun onFacebookLoginSuccess(
-        accessToken: String,
-        firstName: String,
-        secondName: String,
-        profile: String,
-        email: String
+            accessToken: String,
+            firstName: String,
+            secondName: String,
+            profile: String,
+            email: String
     ) {
         snListener.onSocialNetworkLoginSuccess(
-            Person(
-                name = firstName.plus(secondName),
-                profilePic = profile,
-                email = email
-            )
+                Person(
+                        name = firstName.plus(secondName),
+                        profilePic = profile,
+                        email = email
+                )
         )
     }
 
     override fun onFacebookLoginFail(message: String) {
         LoginException(
-            message,
-            ExceptionTypes.FACEBOOK_EXCEPTION
+                message,
+                ExceptionTypes.FACEBOOK_EXCEPTION
         )
     }
+
+
+    //========================Need to implement =====================================================================
+    override fun onTwitterLoginSuccess() =
+            snListener.onSocialNetworkLoginSuccess(Person("Sardar - onTwitterLoginSuccess"))
+
+    override fun onTwitterLoginFail() = snListener.onSocialNetworkLoginFail(
+            LoginException(
+                    "FBLoginFail",
+                    ExceptionTypes.TWITTER_EXCEPTION
+            )
+    )
+
+    override fun onInstagramLoginSuccess() =
+            snListener.onSocialNetworkLoginSuccess(Person("Sardar - onInstagramLoginSuccess"))
+
+    override fun onInstagramLoginFail() = snListener.onSocialNetworkLoginFail(
+            LoginException(
+                    "FBLoginFail",
+                    ExceptionTypes.INSTAGRAM_EXCEPTION
+            )
+    )
+
+    override fun onGooglePlusLoginSuccess() =
+            snListener.onSocialNetworkLoginSuccess(Person("Sardar - onGooglePlusLoginSuccess"))
+
+    override fun onGooglePlusLoginFail() = snListener.onSocialNetworkLoginFail(
+            LoginException(
+                    "FBLoginFail",
+                    ExceptionTypes.GOOGLE_EXCEPTION
+            )
+    )
+
+
 }
