@@ -20,7 +20,6 @@ import com.arolle.ullb.sociallogin.twitter.TwitterHelper
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
- * This is main class which will be exposed to clients
  */
 class SocialNetworkManager private constructor(listener: OnSocialNetworkLoginListener) : FacebookListener,
         TwitterListener, InstagramListener, GooglePlusListener {

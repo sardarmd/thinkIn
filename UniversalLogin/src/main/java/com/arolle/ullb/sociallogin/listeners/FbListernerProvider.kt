@@ -4,7 +4,11 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
-
+/**
+ * Copyright (c) 2021 Arolle solutions All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
 internal fun getFacebookCallBackManager():CallbackManager= CallbackManager.Factory.create()
 
 internal fun getFacebookCallbackListener(fbListener: FacebookListener): FacebookCallback<LoginResult?> {

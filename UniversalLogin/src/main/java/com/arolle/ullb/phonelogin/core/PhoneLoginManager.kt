@@ -3,12 +3,10 @@ package com.arolle.ullb.phonelogin.core
 import com.arolle.ullb.base.config.PhoneNumberConfig
 import com.arolle.ullb.base.listeners.OnPhoneNumberValidListener
 import com.arolle.ullb.base.listeners.OnSecurityCodeWaitListener
-
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
- * This is main class which will be exposed to clients
  */
 internal class PhoneLoginManager private constructor(val phoneNumberConfig: PhoneNumberConfig) {
 

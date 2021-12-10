@@ -16,11 +16,10 @@ import com.facebook.login.LoginManager.getInstance
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
- * This is main class which will be exposed to clients
  */
 internal class FacebookHelper(private val component: Any, private val fbListener: FacebookListener) {
 
-    private val fbLoginManager: LoginManager = getInstance()
+    private val fbLoginManager: LoginManager get() = getInstance()
 
     init {
         fbLoginManager.registerCallback(getFacebookCallBackManager(), getFacebookCallbackListener(fbListener))
