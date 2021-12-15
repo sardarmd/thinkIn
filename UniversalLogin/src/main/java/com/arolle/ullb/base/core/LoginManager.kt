@@ -18,11 +18,11 @@ import com.arolle.ullb.sociallogin.core.SocialNetworkManager
  * license that can be found in the LICENSE file.
  */
 
-
 object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener {
     private lateinit var mode: LoginMode
     private lateinit var mSignInListener: OnSignInListener
     private lateinit var mLoginConfig: LoginConfig
+
     fun signIn(loginConfig: LoginConfig, signInListener: OnSignInListener) {
         mode = loginConfig.mode
         mLoginConfig = loginConfig
@@ -40,7 +40,7 @@ object LoginManager : OnClientAuthListener, OnSocialNetworkLoginListener {
     }
 
     private fun proceedToSocialLogin() {
-        mLoginConfig.socialConfig?.let { SocialNetworkManager.handleSocialLogin(it, this) }
+        mLoginConfig.socialConfig?.let { SocialNetworkManager(mLoginConfig.socialConfig!!, this).handleSocialLogin() }
     }
 
     private fun proceedToPhoneLogin() {

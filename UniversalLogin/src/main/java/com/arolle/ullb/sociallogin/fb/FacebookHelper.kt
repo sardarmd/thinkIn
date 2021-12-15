@@ -17,7 +17,7 @@ import com.facebook.login.LoginManager.getInstance
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
-internal class FacebookHelper(private val component: Any, private val fbListener: FacebookListener) {
+ class FacebookHelper(private val component: Any, private val fbListener: FacebookListener) {
 
     private val fbLoginManager: LoginManager get() = getInstance()
 

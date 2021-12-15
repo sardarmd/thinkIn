@@ -1,12 +1,19 @@
 package com.arolle.ullb.sociallogin.core
 
-import android.util.Log
+/**
+ * Copyright (c) 2021 Arolle solutions All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
 import com.arolle.ullb.base.config.SocialNetworkConfig
 import com.arolle.ullb.base.config.SocialNetworkType
 import com.arolle.ullb.base.exceptions.ExceptionTypes
 import com.arolle.ullb.base.exceptions.LoginException
 import com.arolle.ullb.base.listeners.OnSocialNetworkLoginListener
 import com.arolle.ullb.base.models.Person
+import com.arolle.ullb.sociallogin.di.components.DaggerSocialComponentProvider
+import com.arolle.ullb.sociallogin.di.modules.FacebookModule
+import com.arolle.ullb.sociallogin.di.modules.SocialNetworkModule
 import com.arolle.ullb.sociallogin.fb.FacebookHelper
 import com.arolle.ullb.sociallogin.googleplus.GooglePlusHelper
 import com.arolle.ullb.sociallogin.instagram.InstagramHelper
@@ -15,30 +22,39 @@ import com.arolle.ullb.sociallogin.listeners.GooglePlusListener
 import com.arolle.ullb.sociallogin.listeners.InstagramListener
 import com.arolle.ullb.sociallogin.listeners.TwitterListener
 import com.arolle.ullb.sociallogin.twitter.TwitterHelper
+import javax.inject.Inject
+import javax.inject.Named
 
-/**
- * Copyright (c) 2021 Arolle solutions All rights reserved.
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file.
- */
-class SocialNetworkManager private constructor(listener: OnSocialNetworkLoginListener) : FacebookListener,
+class SocialNetworkManager(private val config: SocialNetworkConfig, private val listener: OnSocialNetworkLoginListener) :
+        FacebookListener,
         TwitterListener, InstagramListener, GooglePlusListener {
 
-    private var snListener: OnSocialNetworkLoginListener = listener
+    @field:[Inject Named("FBHelper")]
+    lateinit var facebookHelper: FacebookHelper
 
-    companion object {
+    @field:[Inject Named("TwitterHelper")]
+    lateinit var twitterHelper: TwitterHelper
 
-        fun handleSocialLogin(config: SocialNetworkConfig, listener: OnSocialNetworkLoginListener): SocialNetworkManager {
-            val snManager = SocialNetworkManager(listener)
-            when (config.socialNetworkType) {
-                SocialNetworkType.FACEBOOK -> FacebookHelper(config.component, snManager)
-                SocialNetworkType.GOOGLE_PLUS -> GooglePlusHelper(snManager)
-                SocialNetworkType.INSTAGRAM -> InstagramHelper(snManager)
-                SocialNetworkType.TWITTER -> TwitterHelper(snManager)
-            }
+    @field:[Inject Named("GoogleHelper")]
+    lateinit var googlePlusHelper: GooglePlusHelper
 
-            return snManager
+    @field:[Inject Named("InstagramHelper")]
+    lateinit var instagramHelper: InstagramHelper
+
+
+    init {
+        DaggerSocialComponentProvider.builder().socialNetworkModule(SocialNetworkModule(this)).facebookModule(FacebookModule(config.component, this)).build().inject(this)
+    }
+
+    fun handleSocialLogin() {
+
+        when (config.socialNetworkType) {
+            SocialNetworkType.FACEBOOK -> facebookHelper
+            SocialNetworkType.GOOGLE_PLUS -> googlePlusHelper
+            SocialNetworkType.INSTAGRAM -> instagramHelper
+            SocialNetworkType.TWITTER -> twitterHelper
         }
+
     }
 
     override fun onFacebookLoginSuccess(
@@ -48,7 +64,7 @@ class SocialNetworkManager private constructor(listener: OnSocialNetworkLoginLis
             profile: String,
             email: String
     ) {
-        snListener.onSocialNetworkLoginSuccess(
+        listener.onSocialNetworkLoginSuccess(
                 Person(
                         name = firstName.plus(secondName),
                         profilePic = profile,
@@ -67,9 +83,9 @@ class SocialNetworkManager private constructor(listener: OnSocialNetworkLoginLis
 
     //========================Need to implement =====================================================================
     override fun onTwitterLoginSuccess() =
-            snListener.onSocialNetworkLoginSuccess(Person("Sardar - onTwitterLoginSuccess"))
+            listener.onSocialNetworkLoginSuccess(Person("Sardar - onTwitterLoginSuccess"))
 
-    override fun onTwitterLoginFail() = snListener.onSocialNetworkLoginFail(
+    override fun onTwitterLoginFail() = listener.onSocialNetworkLoginFail(
             LoginException(
                     "FBLoginFail",
                     ExceptionTypes.TWITTER_EXCEPTION
@@ -77,9 +93,9 @@ class SocialNetworkManager private constructor(listener: OnSocialNetworkLoginLis
     )
 
     override fun onInstagramLoginSuccess() =
-            snListener.onSocialNetworkLoginSuccess(Person("Sardar - onInstagramLoginSuccess"))
+            listener.onSocialNetworkLoginSuccess(Person("Sardar - onInstagramLoginSuccess"))
 
-    override fun onInstagramLoginFail() = snListener.onSocialNetworkLoginFail(
+    override fun onInstagramLoginFail() = listener.onSocialNetworkLoginFail(
             LoginException(
                     "FBLoginFail",
                     ExceptionTypes.INSTAGRAM_EXCEPTION
@@ -87,9 +103,9 @@ class SocialNetworkManager private constructor(listener: OnSocialNetworkLoginLis
     )
 
     override fun onGooglePlusLoginSuccess() =
-            snListener.onSocialNetworkLoginSuccess(Person("Sardar - onGooglePlusLoginSuccess"))
+            listener.onSocialNetworkLoginSuccess(Person("Sardar - onGooglePlusLoginSuccess"))
 
-    override fun onGooglePlusLoginFail() = snListener.onSocialNetworkLoginFail(
+    override fun onGooglePlusLoginFail() = listener.onSocialNetworkLoginFail(
             LoginException(
                     "FBLoginFail",
                     ExceptionTypes.GOOGLE_EXCEPTION

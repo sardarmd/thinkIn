@@ -6,8 +6,8 @@ import com.arolle.ullb.sociallogin.listeners.InstagramListener
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
-internal class InstagramHelper(private val instagramListener: InstagramListener) {
+class InstagramHelper(private val instagramListener: InstagramListener) {
     init {
-        instagramListener.onInstagramLoginSuccess()
+//        instagramListener.onInstagramLoginSuccess()
     }
 }

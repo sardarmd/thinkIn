@@ -5,7 +5,7 @@ package com.arolle.ullb.sociallogin.listeners
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
-internal interface FacebookListener {
+  interface FacebookListener {
     fun onFacebookLoginSuccess(
         accessToken: String = "",
         firstName: String = "",
@@ -17,17 +17,17 @@ internal interface FacebookListener {
     fun onFacebookLoginFail(message: String)
 }
 
-internal interface TwitterListener {
+interface TwitterListener {
     fun onTwitterLoginSuccess()
     fun onTwitterLoginFail()
 }
 
-internal interface InstagramListener {
+interface InstagramListener {
     fun onInstagramLoginSuccess()
     fun onInstagramLoginFail()
 }
 
-internal interface GooglePlusListener {
+interface GooglePlusListener {
     fun onGooglePlusLoginSuccess()
     fun onGooglePlusLoginFail()
 }
