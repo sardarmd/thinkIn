@@ -1,5 +1,6 @@
 package com.arolle.ullb.sociallogin.listeners
 
+import com.arolle.ullb.common.listeners.FacebookListener
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException

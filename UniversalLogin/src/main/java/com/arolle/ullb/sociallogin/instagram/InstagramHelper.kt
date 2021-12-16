@@ -1,6 +1,7 @@
 package com.arolle.ullb.sociallogin.instagram
 
-import com.arolle.ullb.sociallogin.listeners.InstagramListener
+import com.arolle.ullb.common.listeners.InstagramListener
+
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style

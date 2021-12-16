@@ -1,8 +1,8 @@
-package com.arolle.ullb.phonelogin.core
+package com.arolle.ullb.phonelogin
 
-import com.arolle.ullb.base.config.PhoneNumberConfig
-import com.arolle.ullb.base.listeners.OnPhoneNumberValidListener
-import com.arolle.ullb.base.listeners.OnSecurityCodeWaitListener
+import com.arolle.ullb.common.PhoneNumberConfig
+import com.arolle.ullb.common.listeners.OnPhoneNumberValidListener
+import com.arolle.ullb.common.listeners.OnSecurityCodeWaitListener
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style

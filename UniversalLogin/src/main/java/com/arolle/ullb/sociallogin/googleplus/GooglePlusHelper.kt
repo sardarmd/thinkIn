@@ -1,6 +1,6 @@
 package com.arolle.ullb.sociallogin.googleplus
 
-import com.arolle.ullb.sociallogin.listeners.GooglePlusListener
+import com.arolle.ullb.common.listeners.GooglePlusListener
 
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.

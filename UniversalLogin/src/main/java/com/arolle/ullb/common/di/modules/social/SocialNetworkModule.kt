@@ -1,14 +1,14 @@
-package com.arolle.ullb.sociallogin.di.modules
+package com.arolle.ullb.common.di.modules.social
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
+import com.arolle.ullb.common.listeners.GooglePlusListener
+import com.arolle.ullb.common.listeners.InstagramListener
+import com.arolle.ullb.common.listeners.TwitterListener
 import com.arolle.ullb.sociallogin.googleplus.GooglePlusHelper
 import com.arolle.ullb.sociallogin.instagram.InstagramHelper
-import com.arolle.ullb.sociallogin.listeners.GooglePlusListener
-import com.arolle.ullb.sociallogin.listeners.InstagramListener
-import com.arolle.ullb.sociallogin.listeners.TwitterListener
 import com.arolle.ullb.sociallogin.twitter.TwitterHelper
 import dagger.Module
 import dagger.Provides

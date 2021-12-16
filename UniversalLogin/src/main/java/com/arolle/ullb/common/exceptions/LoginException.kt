@@ -1,4 +1,4 @@
-package com.arolle.ullb.base.exceptions
+package com.arolle.ullb.common.exceptions
 
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.

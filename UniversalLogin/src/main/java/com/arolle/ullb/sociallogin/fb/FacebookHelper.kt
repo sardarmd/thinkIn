@@ -3,7 +3,7 @@ package com.arolle.ullb.sociallogin.fb
 import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.arolle.ullb.sociallogin.listeners.FacebookListener
+import com.arolle.ullb.common.listeners.FacebookListener
 import com.arolle.ullb.sociallogin.listeners.getFacebookCallBackManager
 import com.arolle.ullb.sociallogin.listeners.getFacebookCallbackListener
 import com.facebook.AccessToken

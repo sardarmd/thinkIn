@@ -3,15 +3,15 @@ package com.example.universallogin
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.arolle.ullb.base.config.LoginConfig
-import com.arolle.ullb.base.config.LoginMode
-import com.arolle.ullb.base.config.SocialNetworkConfig
-import com.arolle.ullb.base.config.SocialNetworkType
-import com.arolle.ullb.base.core.LoginManager
-import com.arolle.ullb.base.exceptions.LoginException
-import com.arolle.ullb.base.listeners.OnSignInListener
-import com.arolle.ullb.base.models.Person
-import com.arolle.ullb.base.models.PreLoginMeta
+import com.arolle.ullb.common.LoginConfig
+import com.arolle.ullb.common.LoginMode
+import com.arolle.ullb.common.SocialNetworkConfig
+import com.arolle.ullb.common.SocialNetworkType
+import com.arolle.ullb.common.LoginManager
+import com.arolle.ullb.common.exceptions.LoginException
+import com.arolle.ullb.common.listeners.OnSignInListener
+import com.arolle.ullb.common.models.Person
+import com.arolle.ullb.common.models.PreLoginMeta
 
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
@@ -23,12 +23,10 @@ class MainActivity : AppCompatActivity(), OnSignInListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        LoginManager.signIn(
-                LoginConfig(
-                        "1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig =
-                SocialNetworkConfig(this, SocialNetworkType.FACEBOOK, socialId = "1234")
-                ), this
-        )
+        val loginManager = LoginManager(LoginConfig("1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig = SocialNetworkConfig(this,
+                SocialNetworkType.FACEBOOK, socialId = "1234")), this)
+
+        loginManager.signIn()
     }
 
     override fun onSignInProcess(preLoginMeta: PreLoginMeta?) {

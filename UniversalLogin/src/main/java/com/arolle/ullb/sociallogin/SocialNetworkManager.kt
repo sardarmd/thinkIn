@@ -1,26 +1,22 @@
-package com.arolle.ullb.sociallogin.core
+package com.arolle.ullb.sociallogin
 
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
-import com.arolle.ullb.base.config.SocialNetworkConfig
-import com.arolle.ullb.base.config.SocialNetworkType
-import com.arolle.ullb.base.exceptions.ExceptionTypes
-import com.arolle.ullb.base.exceptions.LoginException
-import com.arolle.ullb.base.listeners.OnSocialNetworkLoginListener
-import com.arolle.ullb.base.models.Person
-import com.arolle.ullb.sociallogin.di.components.DaggerSocialComponentProvider
-import com.arolle.ullb.sociallogin.di.modules.FacebookModule
-import com.arolle.ullb.sociallogin.di.modules.SocialNetworkModule
+import com.arolle.ullb.common.SocialNetworkConfig
+import com.arolle.ullb.common.SocialNetworkType
+import com.arolle.ullb.common.di.components.social.DaggerSocialComponentProvider
+import com.arolle.ullb.common.exceptions.ExceptionTypes
+import com.arolle.ullb.common.exceptions.LoginException
+import com.arolle.ullb.common.listeners.*
+import com.arolle.ullb.common.models.Person
+import com.arolle.ullb.common.di.modules.social.FacebookModule
+import com.arolle.ullb.common.di.modules.social.SocialNetworkModule
 import com.arolle.ullb.sociallogin.fb.FacebookHelper
 import com.arolle.ullb.sociallogin.googleplus.GooglePlusHelper
 import com.arolle.ullb.sociallogin.instagram.InstagramHelper
-import com.arolle.ullb.sociallogin.listeners.FacebookListener
-import com.arolle.ullb.sociallogin.listeners.GooglePlusListener
-import com.arolle.ullb.sociallogin.listeners.InstagramListener
-import com.arolle.ullb.sociallogin.listeners.TwitterListener
 import com.arolle.ullb.sociallogin.twitter.TwitterHelper
 import javax.inject.Inject
 import javax.inject.Named
@@ -43,7 +39,8 @@ class SocialNetworkManager(private val config: SocialNetworkConfig, private val 
 
 
     init {
-        DaggerSocialComponentProvider.builder().socialNetworkModule(SocialNetworkModule(this)).facebookModule(FacebookModule(config.component, this)).build().inject(this)
+        DaggerSocialComponentProvider.builder().socialNetworkModule(SocialNetworkModule(this)).
+        facebookModule(FacebookModule(config.component, this)).build().inject(this)
     }
 
     fun handleSocialLogin() {

@@ -1,4 +1,4 @@
-package com.arolle.ullb.base.models
+package com.arolle.ullb.common.models
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
