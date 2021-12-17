@@ -7,7 +7,8 @@ _**1.Phone number Registration**
 
 The below diagram will demonstrate the high level architecture for ULLib.
 
-![HLD_ULIB](https://user-images.githubusercontent.com/24762399/146479971-bb9e6caa-8135-43e8-b846-4b756b3072b6.png)
+![HLD_ULIB](https://user-images.githubusercontent.com/24762399/146480627-ddcad7be-f56c-465e-be46-fee02de27be6.png)
+
 
 
 
