@@ -19,21 +19,21 @@ import javax.inject.Named
 object SocialNetworkModule {
 
     @Provides
-    @Named("FBHelper")
+//    @Named("FBHelper")
     fun provideFacebookHelper(uiComponent: Any, listener: SocialNetworkLoginListener): FacebookImpl = FacebookImpl(uiComponent, listener)
 
     @Provides
     @GlobalScope
-    @Named("TwitterHelper")
+//    @Named("TwitterHelper")
     fun provideTwitterHelper(listener: SocialNetworkLoginListener): TwitterImpl = TwitterImpl(listener)
 
     @Provides
     @GlobalScope
-    @Named("GoogleHelper")
+//    @Named("GoogleHelper")
     fun provideGoogle(listener: SocialNetworkLoginListener): GooglePlusImpl = GooglePlusImpl(listener)
 
     @Provides
     @GlobalScope
-    @Named("InstagramHelper")
+//    @Named("InstagramHelper")
     fun provideInstagramHelper(listener: SocialNetworkLoginListener): InstagramImpl = InstagramImpl(listener)
 }

@@ -18,21 +18,20 @@ import com.arolle.ullb.sociallogin.googleplus.GooglePlusImpl
 import com.arolle.ullb.sociallogin.instagram.InstagramImpl
 import com.arolle.ullb.sociallogin.twitter.TwitterImpl
 import javax.inject.Inject
-import javax.inject.Named
 
 class SocialNetworkManager(private val config: SocialNetworkConfig, private val loginListener: OnSocialNetworkLoginListener) :
         SocialNetworkLoginListener, SocialNetworkLogoutListener {
 
-    @field:[Inject Named("FBHelper")]
+    @field:Inject
     lateinit var facebookImpl: FacebookImpl
 
-    @field:[Inject Named("TwitterHelper")]
+    @field:Inject
     lateinit var twitterImpl: TwitterImpl
 
-    @field:[Inject Named("GoogleHelper")]
+    @field:Inject
     lateinit var googlePlusImpl: GooglePlusImpl
 
-    @field:[Inject Named("InstagramHelper")]
+    @field:Inject
     lateinit var instagramImpl: InstagramImpl
 
     init {
