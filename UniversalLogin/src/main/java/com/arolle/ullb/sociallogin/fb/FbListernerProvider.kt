@@ -1,32 +1,34 @@
 package com.arolle.ullb.sociallogin.listeners
 
-import com.arolle.ullb.common.listeners.FacebookListener
+import com.arolle.ullb.common.exceptions.ExceptionTypes
+import com.arolle.ullb.common.exceptions.LoginException
+import com.arolle.ullb.common.listeners.SocialNetworkLoginListener
+import com.arolle.ullb.common.models.Person
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
+
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
-internal fun getFacebookCallBackManager():CallbackManager= CallbackManager.Factory.create()
+internal fun getFacebookCallBackManager(): CallbackManager = CallbackManager.Factory.create()
 
-internal fun getFacebookCallbackListener(fbListener: FacebookListener): FacebookCallback<LoginResult?> {
+internal fun getFacebookCallbackListener(listener: SocialNetworkLoginListener): FacebookCallback<LoginResult?> {
 
     return object : FacebookCallback<LoginResult?> {
-        override fun onCancel() = fbListener.onFacebookLoginFail("Cancelled")
+        override fun onCancel() = listener.loginFail(LoginException("Facebook login fail", ExceptionTypes.FACEBOOK_EXCEPTION))
 
         override fun onError(e: FacebookException) {
-            fbListener.onFacebookLoginFail(e.message.toString())
+            listener.loginFail(LoginException("Facebook login fail", ExceptionTypes.FACEBOOK_EXCEPTION))
         }
 
         override fun onSuccess(result: LoginResult?) {
-
             result?.accessToken?.token?.let {
-                fbListener.onFacebookLoginSuccess(
-                        it,
-                        result.accessToken.userId
+                listener.loginSuccess(
+                        Person(uniqueId = result.accessToken.userId)
                 )
             }
         }

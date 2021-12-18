@@ -1,14 +1,14 @@
 package com.arolle.ullb.common.listeners
 
-import com.arolle.ullb.common.exceptions.LoginException
-import com.arolle.ullb.common.models.Person
-import com.arolle.ullb.common.models.PreLoginMeta
-
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
+import com.arolle.ullb.common.exceptions.LoginException
+import com.arolle.ullb.common.models.Person
+import com.arolle.ullb.common.models.PreLoginMeta
+
 interface OnClientAuthListener {
     fun onClientAuthSuccess()
     fun onClientAuthFail(message: String)
@@ -48,29 +48,14 @@ interface OnSignOutListener {
     fun onSignOutSuccess()
     fun onSignOutFail()
 }
-interface FacebookListener {
-    fun onFacebookLoginSuccess(
-            accessToken: String = "",
-            firstName: String = "",
-            secondName: String = "",
-            profile: String = "",
-            email:String =""
-    )
 
-    fun onFacebookLoginFail(message: String)
+interface SocialNetworkLoginListener {
+    fun loginSuccess(data: Person)
+    fun loginFail(loginException: LoginException)
 }
 
-interface TwitterListener {
-    fun onTwitterLoginSuccess()
-    fun onTwitterLoginFail()
+interface SocialNetworkLogoutListener {
+    fun logoutSuccess()
+    fun logoutFail(loginException: LoginException)
 }
 
-interface InstagramListener {
-    fun onInstagramLoginSuccess()
-    fun onInstagramLoginFail()
-}
-
-interface GooglePlusListener {
-    fun onGooglePlusLoginSuccess()
-    fun onGooglePlusLoginFail()
-}

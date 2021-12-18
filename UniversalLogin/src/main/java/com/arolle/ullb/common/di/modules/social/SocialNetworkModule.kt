@@ -1,36 +1,39 @@
 package com.arolle.ullb.common.di.modules.social
+
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
-import com.arolle.ullb.common.listeners.GooglePlusListener
-import com.arolle.ullb.common.listeners.InstagramListener
-import com.arolle.ullb.common.listeners.TwitterListener
-import com.arolle.ullb.sociallogin.googleplus.GooglePlusHelper
-import com.arolle.ullb.sociallogin.instagram.InstagramHelper
-import com.arolle.ullb.sociallogin.twitter.TwitterHelper
+import com.arolle.ullb.common.di.scopes.GlobalScope
+import com.arolle.ullb.common.listeners.*
+import com.arolle.ullb.sociallogin.fb.FacebookImpl
+import com.arolle.ullb.sociallogin.googleplus.GooglePlusImpl
+import com.arolle.ullb.sociallogin.instagram.InstagramImpl
+import com.arolle.ullb.sociallogin.twitter.TwitterImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
 
 @Module
-class SocialNetworkModule(private val listener: Any) {
-
-    private val twitterListener get() = listener as TwitterListener
-    private val googlePlusListener get() = listener as GooglePlusListener
-    private val instagramListener get() = listener as InstagramListener
-
+object SocialNetworkModule {
 
     @Provides
+    @Named("FBHelper")
+    fun provideFacebookHelper(uiComponent: Any, listener: SocialNetworkLoginListener): FacebookImpl = FacebookImpl(uiComponent, listener)
+
+    @Provides
+    @GlobalScope
     @Named("TwitterHelper")
-    fun provideTwitterHelper(): TwitterHelper = TwitterHelper(twitterListener)
+    fun provideTwitterHelper(listener: SocialNetworkLoginListener): TwitterImpl = TwitterImpl(listener)
 
     @Provides
+    @GlobalScope
     @Named("GoogleHelper")
-    fun provideGoogle(): GooglePlusHelper = GooglePlusHelper(googlePlusListener)
+    fun provideGoogle(listener: SocialNetworkLoginListener): GooglePlusImpl = GooglePlusImpl(listener)
 
     @Provides
+    @GlobalScope
     @Named("InstagramHelper")
-    fun provideInstagramHelper(): InstagramHelper = InstagramHelper(instagramListener)
+    fun provideInstagramHelper(listener: SocialNetworkLoginListener): InstagramImpl = InstagramImpl(listener)
 }

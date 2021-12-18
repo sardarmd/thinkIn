@@ -25,7 +25,7 @@ class LoginManager(private val loginConfig: LoginConfig, private val signInListe
     }
 
     fun validateSecurityCode(code: String, waitListener: OnSecurityCodeWaitListener) {
-        PhoneLoginManager.submitSecurityCode(code, waitListener)
+//        PhoneLoginManager.submitSecurityCode(code, waitListener)
     }
 
     private fun validateApplication() {
@@ -34,15 +34,12 @@ class LoginManager(private val loginConfig: LoginConfig, private val signInListe
     }
 
     private fun proceedToSocialLogin() {
-        loginConfig.socialConfig?.let { SocialNetworkManager(loginConfig.socialConfig!!, this).handleSocialLogin() }
+        loginConfig.socialConfig?.let { SocialNetworkManager(loginConfig.socialConfig!!, this).singIn() }
     }
 
     private fun proceedToPhoneLogin() {
         loginConfig.phoneNumberConfig?.let {
-            PhoneLoginManager.handlePhoneNumberLogin(
-                    it,
-                    loginConfig.phoneNumberConfig!!.phoneNumberValidListener
-            )
+            PhoneLoginManager(loginConfig.phoneNumberConfig, loginConfig.phoneNumberConfig.phoneNumberValidListener).signIn()
         }
 
     }
@@ -60,9 +57,6 @@ class LoginManager(private val loginConfig: LoginConfig, private val signInListe
     override fun onSocialNetworkLoginFail(loginException: LoginException) {
     }
 
-
-    fun signOut() {
-
-    }
+    fun signOut() = Unit
 
 }

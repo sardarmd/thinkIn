@@ -16,18 +16,17 @@ data class LoginConfig(
 )
 
 data class PhoneNumberConfig(
-        val countryCode: String,
-        val phoneNumber: String,
-        val phoneNumberValidListener: OnPhoneNumberValidListener,
-        val waitTimeInMinutes: Int = 15,
-        val maxRetry: Int = 5
+    val countryCode: String,
+    val phoneNumber: String,
+    val phoneNumberValidListener: OnPhoneNumberValidListener,
+    val waitTimeInMinutes: Int = 15,
+    val maxRetry: Int = 5
 )
 
 data class SocialNetworkConfig(
         val component: Any,
         val socialNetworkType: SocialNetworkType,
         var socialId: String = ""
-//    val socialNetworkLoginListener: OnSocialNetworkLoginListener
 )
 
 enum class LoginMode {

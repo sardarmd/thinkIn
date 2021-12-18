@@ -3,7 +3,10 @@ package com.arolle.ullb.sociallogin.fb
 import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.arolle.ullb.common.listeners.FacebookListener
+import com.arolle.ullb.common.exceptions.ExceptionTypes
+import com.arolle.ullb.common.exceptions.LoginException
+import com.arolle.ullb.common.listeners.SocialNetworkLoginListener
+import com.arolle.ullb.common.models.Person
 import com.arolle.ullb.sociallogin.listeners.getFacebookCallBackManager
 import com.arolle.ullb.sociallogin.listeners.getFacebookCallbackListener
 import com.facebook.AccessToken
@@ -17,12 +20,12 @@ import com.facebook.login.LoginManager.getInstance
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
- class FacebookHelper(private val component: Any, private val fbListener: FacebookListener) {
+class FacebookImpl(private val component: Any, private val listener: SocialNetworkLoginListener) {
 
     private val fbLoginManager: LoginManager get() = getInstance()
 
     init {
-        fbLoginManager.registerCallback(getFacebookCallBackManager(), getFacebookCallbackListener(fbListener))
+        fbLoginManager.registerCallback(getFacebookCallBackManager(), getFacebookCallbackListener(listener))
         getLoginState()
     }
 
@@ -34,19 +37,16 @@ import com.facebook.login.LoginManager.getInstance
             override fun onCompleted(accessToken: AccessToken) {
                 val profile = Profile.getCurrentProfile()
                 if (profile == null) login() else
-                    fbListener.onFacebookLoginSuccess(
-                            accessToken = accessToken.token,
-                            firstName = profile?.firstName.toString(),
-                            secondName = profile?.lastName.toString(),
-                            profile = profile?.getProfilePictureUri(100, 100).toString(),
-                    )
+                    listener.loginSuccess((Person(name = profile?.firstName.toString().plus(profile?.lastName.toString()), profilePic
+                    = profile?.getProfilePictureUri(100, 100).toString(), email = profile?.getProfilePictureUri(100, 100).toString(), uniqueId = accessToken.token)))
+
 
             }
 
             override fun onFailure() = login()
 
             override fun onError(exception: Exception) {
-                exception.message?.let { fbListener.onFacebookLoginFail(it) }
+                listener.loginFail(LoginException("Facebook login fail", ExceptionTypes.FACEBOOK_EXCEPTION))
             }
         })
 
