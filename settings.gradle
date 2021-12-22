@@ -1,3 +1,4 @@
+include ':UserProfile'
 include ':UniversalLogin'
 include ':app'
 rootProject.name = "UniversalLogin"
