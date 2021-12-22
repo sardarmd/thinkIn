@@ -1,4 +1,5 @@
 package com.example.universallogin
+
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
@@ -22,20 +23,20 @@ import com.arrolle.userprofile.common.ProfileException
 import com.arrolle.userprofile.listeners.ProfileListener
 import com.arrolle.userprofile.model.Profile
 
-class MainActivity : AppCompatActivity(), OnSignInListener,ProfileListener {
+class MainActivity : AppCompatActivity(), OnSignInListener, ProfileListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val loginManager = LoginManager(
             LoginConfig(
-                "1234", LoginMode.SOCIAL_NETWORK_LOGIN, socialConfig = SocialNetworkConfig(
-                    this,
-                    SocialNetworkType.FACEBOOK, socialId = "1234"
+                "1234", LoginMode.SOCIAL_NETWORK_LOGIN,
+                socialConfig = SocialNetworkConfig(
+                    this, SocialNetworkType.FACEBOOK,
+                    socialId = "1234"
                 )
             ), this
         )
-
         loginManager.signIn()
     }
 
@@ -48,8 +49,7 @@ class MainActivity : AppCompatActivity(), OnSignInListener,ProfileListener {
         ProfileManager(this).addPrimaryProfile(props)
     }
 
-    override fun onSignInFail(loginException: LoginException) {
-    }
+    override fun onSignInFail(loginException: LoginException) {}
 
     override fun onProfileFetchSuccess(profile: Profile) {
         Toast.makeText(this, "Profile fetched", Toast.LENGTH_LONG).show()

@@ -1,12 +1,12 @@
 package com.arrolle.userprofile
 
-import com.arrolle.userprofile.listeners.ProfileListener
-
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file.
  */
+import com.arrolle.userprofile.listeners.ProfileListener
+
 class ProfileManager(private val listener: ProfileListener) {
 
     fun addPrimaryProfile(properties: Map<String, Any>) {
