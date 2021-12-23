@@ -1,4 +1,4 @@
-package com.example.universallogin
+package com.arolle.kiddo
 
 /**
  * Copyright (c) 2021 Arolle solutions All rights reserved.
