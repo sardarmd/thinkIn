@@ -1,4 +1,6 @@
-# ThinkBird
+# ThinkIn
+![logo_thinkin](https://user-images.githubusercontent.com/24762399/147315598-f281e22f-5624-4bbc-9991-668f2c9b0b82.JPG)
+
 
 **Modules** <br/>
 
