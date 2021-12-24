@@ -1,5 +1,6 @@
 # ThinkIn
-![logo_thinkin](https://user-images.githubusercontent.com/24762399/147315598-f281e22f-5624-4bbc-9991-668f2c9b0b82.JPG)
+![logo_thinkin](https://user-images.githubusercontent.com/24762399/147315744-3f7014e2-a932-4f84-847d-1189b198f705.JPG)
+
 
 
 **Modules** <br/>
